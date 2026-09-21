@@ -80,6 +80,7 @@
   }
   .correct-msg { color: #1e8e3e; }
   .wrong-msg { color: #d93025; }
+  .already-msg { color: #b8860b; }
   .stats {
     text-align: left;
     background: #fafafa;
@@ -129,7 +130,7 @@
 <script>
 (function () {
   // ----- Word list to match against -----
-  var WORD_LIST = ["Stretch", "Commute", "Errand", "Schedule", "Grocery", "Chores", "Yawn", "Rinse", "Gargle", "Rub", "Squint", "Wink", "Blink", "Frown", "Sniff", "Fiddle", "Stomp", "Slouch", "Shrug", "Lean", "Nod", "Shake", "Sigh", "Hum", "Mutter", "Whistle", "Snap", "Puff out"];;
+  var WORD_LIST = ["Stretch", "Commute", "Errand", "Schedule", "Grocery", "Chores", "Yawn", "Rinse", "Gargle", "Rub", "Squint", "Wink", "Blink", "Frown", "Sniff", "Fiddle", "Stomp", "Slouch", "Shrug", "Lean", "Nod", "Shake", "Sigh", "Hum", "Mutter", "Whistle", "Snap", "Puff out"];
 
   // ----- Session storage keys -----
   var KEY_MATCHED = "wm_matchedWords";
@@ -210,9 +211,10 @@
     inputArea.style.display = "none";
   }
 
-  function showFeedback(text, isCorrect) {
+  function showFeedback(text, type) {
+    // type: "correct" | "wrong" | "already"
     feedback.textContent = text;
-    feedback.className = "feedback " + (isCorrect ? "correct-msg" : "wrong-msg");
+    feedback.className = "feedback " + (type === "correct" ? "correct-msg" : type === "already" ? "already-msg" : "wrong-msg");
   }
 
   function finishGame(reason) {
@@ -250,13 +252,15 @@
     var isInList = WORD_LIST.some(function (w) { return w.toLowerCase() === value.toLowerCase(); });
     var alreadyMatched = matchedWords.indexOf(value) !== -1;
 
-    if (isInList && !alreadyMatched) {
+    if (alreadyMatched) {
+      showFeedback("Already submitted!", "already");
+    } else if (isInList) {
       matchedWords.push(value);
       correctCount++;
-      showFeedback("Correct!", true);
+      showFeedback("Correct!", "correct");
     } else {
       wrongCount++;
-      showFeedback("Wrong!", false);
+      showFeedback("Wrong!", "wrong");
     }
 
     updateStatsDisplay();
