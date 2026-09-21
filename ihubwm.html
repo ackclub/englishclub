@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Word Match Game</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: #f4f6f8;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 60px;
+    min-height: 100vh;
+    margin: 0;
+  }
+  .card {
+    background: #fff;
+    padding: 32px 36px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    width: 380px;
+    text-align: center;
+  }
+  h1 {
+    font-size: 20px;
+    margin: 0 0 20px;
+    color: #222;
+  }
+  .timer {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    margin-bottom: 12px;
+  }
+  input[type="text"]:focus {
+    border-color: #4a7dfc;
+  }
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  button {
+    flex: 1;
+    padding: 10px 0;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.15s;
+  }
+  button:active { opacity: 0.8; }
+  #submitBtn {
+    background: #4a7dfc;
+    color: #fff;
+  }
+  #stopBtn {
+    background: #e0e0e0;
+    color: #333;
+  }
+  .feedback {
+    min-height: 24px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    font-size: 15px;
+  }
+  .correct-msg { color: #1e8e3e; }
+  .wrong-msg { color: #d93025; }
+  .stats {
+    text-align: left;
+    background: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  .stats span.label { color: #666; }
+  .stats span.value { font-weight: 700; color: #222; }
+  .completed-yes { color: #1e8e3e; }
+  .completed-no { color: #d93025; }
+  .final-banner {
+    margin-top: 14px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e8e3e;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Word Match Challenge</h1>
+  <div class="timer" id="timer">00:00</div>
+
+  <div id="inputArea">
+    <input type="text" id="wordInput" placeholder="Type a word..." autocomplete="off">
+    <div class="btn-row">
+      <button id="submitBtn">Submit</button>
+      <button id="stopBtn">Stop</button>
+    </div>
+  </div>
+
+  <div class="feedback" id="feedback"></div>
+
+  <div class="stats">
+    <div><span class="label">Correct: </span><span class="value" id="correctCount">0</span></div>
+    <div><span class="label">Wrong: </span><span class="value" id="wrongCount">0</span></div>
+    <div><span class="label">Status: </span><span class="value" id="statusText">Not Completed</span></div>
+  </div>
+
+  <div class="final-banner" id="finalBanner" style="display:none;"></div>
+</div>
+
+<script>
+(function () {
+  // ----- Word list to match against -----
+  var WORD_LIST = ["Stretch", "Commute", "Errand", "Schedule", "Grocery", "Chores", "Yawn", "Rinse", "Gargle", "Rub", "Squint", "Wink", "Blink", "Frown", "Sniff", "Fiddle", "Stomp", "Slouch", "Shrug", "Lean", "Nod", "Shake", "Sigh", "Hum", "Mutter", "Whistle", "Snap", "Puff out"];;
+
+  // ----- Session storage keys -----
+  var KEY_MATCHED = "wm_matchedWords";
+  var KEY_CORRECT = "wm_correctCount";
+  var KEY_WRONG = "wm_wrongCount";
+  var KEY_ELAPSED = "wm_elapsedSeconds";
+  var KEY_COMPLETED = "wm_completed";
+  var KEY_STOPPED = "wm_stopped";
+
+  // ----- DOM references -----
+  var wordInput = document.getElementById("wordInput");
+  var submitBtn = document.getElementById("submitBtn");
+  var stopBtn = document.getElementById("stopBtn");
+  var inputArea = document.getElementById("inputArea");
+  var feedback = document.getElementById("feedback");
+  var timerEl = document.getElementById("timer");
+  var correctCountEl = document.getElementById("correctCount");
+  var wrongCountEl = document.getElementById("wrongCount");
+  var statusTextEl = document.getElementById("statusText");
+  var finalBanner = document.getElementById("finalBanner");
+
+  // ----- State (restored from sessionStorage if present) -----
+  var matchedWords = JSON.parse(sessionStorage.getItem(KEY_MATCHED) || "[]");
+  var correctCount = parseInt(sessionStorage.getItem(KEY_CORRECT) || "0", 10);
+  var wrongCount = parseInt(sessionStorage.getItem(KEY_WRONG) || "0", 10);
+  var elapsedSeconds = parseInt(sessionStorage.getItem(KEY_ELAPSED) || "0", 10);
+  var completed = sessionStorage.getItem(KEY_COMPLETED) === "true";
+  var stopped = sessionStorage.getItem(KEY_STOPPED) === "true";
+
+  var timerInterval = null;
+
+  function formatTime(totalSeconds) {
+    var m = Math.floor(totalSeconds / 60);
+    var s = totalSeconds % 60;
+    return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+  }
+
+  function saveState() {
+    sessionStorage.setItem(KEY_MATCHED, JSON.stringify(matchedWords));
+    sessionStorage.setItem(KEY_CORRECT, String(correctCount));
+    sessionStorage.setItem(KEY_WRONG, String(wrongCount));
+    sessionStorage.setItem(KEY_ELAPSED, String(elapsedSeconds));
+    sessionStorage.setItem(KEY_COMPLETED, String(completed));
+    sessionStorage.setItem(KEY_STOPPED, String(stopped));
+  }
+
+  function updateStatsDisplay() {
+    correctCountEl.textContent = correctCount;
+    wrongCountEl.textContent = wrongCount;
+    timerEl.textContent = formatTime(elapsedSeconds);
+
+    if (completed) {
+      statusTextEl.textContent = "Completed";
+      statusTextEl.className = "value completed-yes";
+    } else {
+      statusTextEl.textContent = "Not Completed";
+      statusTextEl.className = "value completed-no";
+    }
+  }
+
+  function startTimer() {
+    if (timerInterval) return;
+    timerInterval = setInterval(function () {
+      elapsedSeconds++;
+      timerEl.textContent = formatTime(elapsedSeconds);
+      saveState();
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+  }
+
+  function hideInputArea() {
+    inputArea.style.display = "none";
+  }
+
+  function showFeedback(text, isCorrect) {
+    feedback.textContent = text;
+    feedback.className = "feedback " + (isCorrect ? "correct-msg" : "wrong-msg");
+  }
+
+  function finishGame(reason) {
+    // reason: "completed" or "stopped"
+    stopTimer();
+    hideInputArea();
+    saveState();
+    updateStatsDisplay();
+
+    if (reason === "completed") {
+      finalBanner.textContent = "🎉 Completed! All words matched.";
+      finalBanner.className = "final-banner";
+      finalBanner.style.display = "block";
+      feedback.textContent = "";
+    } else if (reason === "stopped") {
+      finalBanner.textContent = "Stopped. Final results shown below.";
+      finalBanner.style.color = "#555";
+      finalBanner.style.display = "block";
+      feedback.textContent = "";
+    }
+  }
+
+  function handleSubmit() {
+    if (completed || stopped) return;
+
+    var raw = wordInput.value;
+    var value = raw.trim().toLowerCase();
+    wordInput.value = "";
+
+    if (value === "") {
+      wordInput.focus();
+      return;
+    }
+
+    var isInList = WORD_LIST.some(function (w) { return w.toLowerCase() === value.toLowerCase(); });
+    var alreadyMatched = matchedWords.indexOf(value) !== -1;
+
+    if (isInList && !alreadyMatched) {
+      matchedWords.push(value);
+      correctCount++;
+      showFeedback("Correct!", true);
+    } else {
+      wrongCount++;
+      showFeedback("Wrong!", false);
+    }
+
+    updateStatsDisplay();
+    saveState();
+
+    if (matchedWords.length >= WORD_LIST.length) {
+      completed = true;
+      finishGame("completed");
+    }
+
+    wordInput.focus();
+  }
+
+  function handleStop() {
+    if (completed || stopped) return;
+    stopped = true;
+    finishGame("stopped");
+  }
+
+  submitBtn.addEventListener("click", handleSubmit);
+  stopBtn.addEventListener("click", handleStop);
+  wordInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  });
+
+  // ----- Initialize on page load / refresh -----
+  updateStatsDisplay();
+
+  if (completed) {
+    hideInputArea();
+    finalBanner.textContent = "🎉 Completed! All words matched.";
+    finalBanner.style.display = "block";
+  } else if (stopped) {
+    hideInputArea();
+    finalBanner.textContent = "Stopped. Final results shown below.";
+    finalBanner.style.color = "#555";
+    finalBanner.style.display = "block";
+  } else {
+    startTimer();
+    wordInput.focus();
+  }
+})();
+</script>
+
+</body>
+</html>
