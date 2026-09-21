@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iHub English Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Kalam:wght@400;700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f7f2e7;
+    --ink1: #2b2b2b;
+    --ink2: #7a3b2e;
+    --ink3: #1f4e5f;
+    --ink4: #6b5b1a;
+    --ink5: #4a2f5e;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'Kalam', cursive;
+  }
+
+  body {
+    background: var(--paper);
+    background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 100% 44px;
+  }
+
+  .board {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .title {
+    position: absolute;
+    top: 3vh;
+    left: 0;
+    font-family: 'Shadows Into Light', cursive;
+    font-size: clamp(28px, 3.2vw, 56px);
+    color: var(--ink1);
+    transform: rotate(-2deg);
+    pointer-events: none;
+    width: 100%;
+    text-align: center;
+  }
+
+  .notice{
+    position: fixed;
+    font-size: 20px;
+    top: 10px;
+    left: 10px;
+    width: 230px;
+    height: 100vh;
+    border-right: 1px solid green;
+    text-align: center;
+  }
+
+  .hint {
+    position: absolute;
+    bottom: 2vh;
+    right: 3vw;
+    font-family: 'Kalam', cursive;
+    font-size: clamp(14px, 1.1vw, 20px);
+    color: #9a9a9a;
+    pointer-events: none;
+  }
+
+  .word {
+    position: absolute;
+    white-space: nowrap;
+    cursor: default;
+    user-select: none;
+    transition: transform 0.2s ease;
+    line-height: 1;
+  }
+
+  .word:hover {
+    transform: scale(1.15) rotate(0deg) !important;
+    z-index: 10;
+  }
+
+  .circle {
+    border: 2.5px solid currentColor;
+    border-radius: 50% / 45%;
+    padding: 6px 18px;
+  }
+</style>
+</head>
+<body>
+
+<div class="board" id="board">
+  <div class="title">Words of the Day</div>
+  <div class="notice">
+    iHub English Club
+    <br><hr><br>
+    Time: 04:00 PM to 04:30 PM
+    <br><hr><br>
+    The motto is to improve vocab power, communication and presentation skills.
+    <br><hr><br>
+    Scan the QR to explore the Words of the Day.
+    <br><hr><br>
+  </div>
+  <div class="hint">
+    <img src="eci.png" style="width: 150px; position: fixed; bottom: 10px; left: 10px; z-index: -1;">
+  </div>
+</div>
+
+<script>
+  const words = ["Stretch", "Commute", "Errand", "Schedule", "Grocery", "Chores", "Yawn", "Rinse", "Gargle", "Rub", "Squint", "Wink", "Frown", "Sniff", "Fiddle", "Stomp", "Slouch", "Shrug", "Lean", "Nod", "Shake", "Sigh", "Hum", "Mutter", "Whistle", "Snap", "Puff out"];
+
+  const inkColors = [
+    "var(--ink1)", "var(--ink2)", "var(--ink3)", "var(--ink4)", "var(--ink5)"
+  ];
+
+  const fonts = ["'Caveat', cursive", "'Kalam', cursive", "'Shadows Into Light', cursive"];
+
+  const board = document.getElementById("board");
+
+  function rand(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function rectsOverlap(a, b, pad) {
+    return !(
+      a.x + a.w + pad < b.x ||
+      b.x + b.w + pad < a.x ||
+      a.y + a.h + pad < b.y ||
+      b.y + b.h + pad < a.y
+    );
+  }
+
+  function layout() {
+    // clear previous words (keep title/hint)
+    board.querySelectorAll(".word").forEach(el => el.remove());
+
+    const boardW = board.clientWidth;
+    const boardH = board.clientHeight;
+
+    // reserved zones: title (top-left) and hint (bottom-right)
+    const reserved = [
+      { x: 0, y: 0, w: boardW * 0.42, h: boardH * 0.14 },
+      { x: 0, y: 0, w: 250, h: boardH }
+    ];
+
+    const placedRects = [...reserved];
+    const marginX = boardW * 0.02;
+    const marginY = boardH * 0.16; // leave room under the title
+    const marginBottom = boardH * 0.03;
+
+    // shuffle word order each time so layout feels fresh
+    const shuffled = [...words].sort(() => Math.random() - 0.5);
+
+    shuffled.forEach((word, i) => {
+      const el = document.createElement("div");
+      el.className = "word";
+      el.textContent = word;
+
+      const sizeVw = rand(1.6, 3.4); // font size relative to viewport width
+      const rotate = rand(-14, 14);
+      const color = inkColors[i % inkColors.length];
+      const font = fonts[i % fonts.length];
+
+      el.style.fontFamily = font;
+      el.style.fontSize = `clamp(20px, ${sizeVw}vw, 64px)`;
+      el.style.color = color;
+      el.style.fontWeight = sizeVw > 2.6 ? "700" : "400";
+
+      const decoration = i % 3;
+      if (decoration === 1) el.classList.add("circle");
+
+      // place off-screen first to measure actual size
+      el.style.left = "-9999px";
+      el.style.top = "-9999px";
+      board.appendChild(el);
+      const w = el.offsetWidth;
+      const h = el.offsetHeight;
+
+      let x, y, attempts = 0, placed = false;
+      const maxX = Math.max(marginX, boardW - w - marginX);
+      const maxY = Math.max(marginY, boardH - h - marginBottom);
+
+      while (attempts < 150 && !placed) {
+        x = rand(marginX, maxX);
+        y = rand(marginY, maxY);
+        const rect = { x, y, w, h };
+        const collides = placedRects.some(r => rectsOverlap(rect, r, 14));
+        if (!collides) placed = true;
+        attempts++;
+      }
+
+      // fallback: accept last tried position even if tight
+      placedRects.push({ x, y, w, h });
+
+      el.style.left = x + "px";
+      el.style.top = y + "px";
+      el.style.transform = `rotate(${rotate}deg)`;
+    });
+  }
+
+  board.addEventListener("click", layout);
+  window.addEventListener("resize", layout);
+  window.addEventListener("load", layout);
+  layout();
+</script>
+
+</body>
+</html>

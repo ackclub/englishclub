@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+  :root {
+    --bg: #faf7f2;
+    --card: #ffffff;
+    --ink: #2b2b2b;
+    --muted: #6b6b6b;
+    --accent: #1f4e5f;
+    --border: #e6e0d4;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 40px 20px;
+    background: var(--bg);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    color: var(--ink);
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin-bottom: 36px;
+  }
+
+  .grid {
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+
+  .word {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--accent);
+    margin: 0 0 8px 0;
+  }
+
+  .row {
+    font-family: Arial, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin-bottom: 6px;
+  }
+
+  .label {
+    font-weight: bold;
+    color: var(--muted);
+    display: inline-block;
+    min-width: 78px;
+  }
+
+  .example {
+    font-style: italic;
+    color: #444;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+  }
+</style>
+    <title>Daily Routine Words</title>
+</head>
+<body>
+
+<h1>Vocabulary Reference</h1>
+<p class="subtitle">Meaning &middot; Synonym &middot; Antonym &middot; Example &middot; Cambridge Dictionary Link</p>
+
+<div class="grid">
+
+  <div class="card">
+    <p class="word">Stretch</p>
+    <div class="row"><span class="label">Meaning:</span> To extend or lengthen your body or something else, often by pulling</div>
+    <div class="row"><span class="label">Synonym:</span> Extend</div>
+    <div class="row"><span class="label">Antonym:</span> Contract</div>
+    <div class="row example">"She stretched her arms above her head after waking up."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/stretch" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Commute</p>
+    <div class="row"><span class="label">Meaning:</span> To travel regularly between home and work</div>
+    <div class="row"><span class="label">Synonym:</span> Travel</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"He commutes to the city every day by bus."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/commute" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Errand</p>
+    <div class="row"><span class="label">Meaning:</span> A short trip to do a specific task, often for someone else</div>
+    <div class="row"><span class="label">Synonym:</span> Task</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"I need to run an errand to the pharmacy."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/errand" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Schedule</p>
+    <div class="row"><span class="label">Meaning:</span> A plan of things to do at set times; to plan such a list</div>
+    <div class="row"><span class="label">Synonym:</span> Timetable</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"Our meeting is scheduled for 3 p.m. tomorrow."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/schedule" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Grocery</p>
+    <div class="row"><span class="label">Meaning:</span> Food and household items bought at a shop, or the shop itself</div>
+    <div class="row"><span class="label">Synonym:</span> Provisions</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"We need to buy groceries for the week."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/grocery" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Chores</p>
+    <div class="row"><span class="label">Meaning:</span> Small routine tasks, especially household ones</div>
+    <div class="row"><span class="label">Synonym:</span> Tasks</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"Washing the dishes is one of my daily chores."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/chore" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Yawn</p>
+    <div class="row"><span class="label">Meaning:</span> To open your mouth wide and breathe in deeply, usually when tired</div>
+    <div class="row"><span class="label">Synonym:</span> Gape</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"He yawned loudly during the boring lecture."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/yawn" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Rinse</p>
+    <div class="row"><span class="label">Meaning:</span> To wash something briefly with water to remove soap or dirt</div>
+    <div class="row"><span class="label">Synonym:</span> Wash</div>
+    <div class="row"><span class="label">Antonym:</span> Soil</div>
+    <div class="row example">"Rinse the vegetables before cooking them."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/rinse" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Gargle</p>
+    <div class="row"><span class="label">Meaning:</span> To wash the throat by holding liquid in the mouth and blowing air through it</div>
+    <div class="row"><span class="label">Synonym:</span> —</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"She gargled with salt water to soothe her sore throat."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/gargle" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Rub</p>
+    <div class="row"><span class="label">Meaning:</span> To move something back and forth against a surface with pressure</div>
+    <div class="row"><span class="label">Synonym:</span> Massage</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"He rubbed his eyes after waking up."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/rub" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Squint</p>
+    <div class="row"><span class="label">Meaning:</span> To look at something with eyes partly closed, often in bright light</div>
+    <div class="row"><span class="label">Synonym:</span> Peer</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"She squinted at the bright sunlight."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/squint" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Wink</p>
+    <div class="row"><span class="label">Meaning:</span> To close and open one eye quickly, often as a signal</div>
+    <div class="row"><span class="label">Synonym:</span> Blink (one eye)</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"He winked at her from across the room."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/wink" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Frown</p>
+    <div class="row"><span class="label">Meaning:</span> To wrinkle your forehead or eyebrows to show displeasure or confusion</div>
+    <div class="row"><span class="label">Synonym:</span> Scowl</div>
+    <div class="row"><span class="label">Antonym:</span> Smile</div>
+    <div class="row example">"She frowned when she read the bad news."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/frown" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Sniff</p>
+    <div class="row"><span class="label">Meaning:</span> To breathe in sharply through the nose</div>
+    <div class="row"><span class="label">Synonym:</span> Inhale</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"He sniffed the flowers before buying them."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/sniff" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Puff (out)</p>
+    <div class="row"><span class="label">Meaning:</span> To expand your cheeks by filling them with air</div>
+    <div class="row"><span class="label">Synonym:</span> Blow up</div>
+    <div class="row"><span class="label">Antonym:</span> Suck in</div>
+    <div class="row example">"He puffed out his cheeks before blowing out the candles."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/puff" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Fiddle</p>
+    <div class="row"><span class="label">Meaning:</span> To touch or move something restlessly with your fingers, without real purpose</div>
+    <div class="row"><span class="label">Synonym:</span> Fidget</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"She fiddled with her pen during the meeting."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/fiddle" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Stomp</p>
+    <div class="row"><span class="label">Meaning:</span> To walk with heavy, loud steps, often in anger</div>
+    <div class="row"><span class="label">Synonym:</span> Stamp</div>
+    <div class="row"><span class="label">Antonym:</span> Tiptoe</div>
+    <div class="row example">"He stomped out of the room after the argument."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/stomp" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Slouch</p>
+    <div class="row"><span class="label">Meaning:</span> To stand, sit, or move lazily with shoulders and head drooping</div>
+    <div class="row"><span class="label">Synonym:</span> Slump</div>
+    <div class="row"><span class="label">Antonym:</span> Straighten up</div>
+    <div class="row example">"Don't slouch in your chair; sit up straight."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/slouch" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Shrug</p>
+    <div class="row"><span class="label">Meaning:</span> To raise your shoulders briefly to show you don't know or don't care</div>
+    <div class="row"><span class="label">Synonym:</span> —</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"She shrugged when asked about the missing files."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/shrug" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Lean</p>
+    <div class="row"><span class="label">Meaning:</span> To bend or rest your body against something</div>
+    <div class="row"><span class="label">Synonym:</span> Tilt</div>
+    <div class="row"><span class="label">Antonym:</span> Straighten</div>
+    <div class="row example">"He leaned against the wall while waiting for the bus."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/lean" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Nod</p>
+    <div class="row"><span class="label">Meaning:</span> To move your head up and down, usually to show agreement</div>
+    <div class="row"><span class="label">Synonym:</span> Agree (gesture)</div>
+    <div class="row"><span class="label">Antonym:</span> Shake (head)</div>
+    <div class="row example">"She nodded in agreement with his plan."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/nod" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Shake</p>
+    <div class="row"><span class="label">Meaning:</span> To move something quickly from side to side or up and down</div>
+    <div class="row"><span class="label">Synonym:</span> Tremble</div>
+    <div class="row"><span class="label">Antonym:</span> Nod</div>
+    <div class="row example">"He shook his head to say no."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/shake" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Sigh</p>
+    <div class="row"><span class="label">Meaning:</span> To breathe out slowly and audibly, showing tiredness, relief, or sadness</div>
+    <div class="row"><span class="label">Synonym:</span> Exhale</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"She sighed with relief when the test was over."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/sigh" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Hum</p>
+    <div class="row"><span class="label">Meaning:</span> To make a continuous low musical sound with your lips closed</div>
+    <div class="row"><span class="label">Synonym:</span> Buzz</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"He hummed a tune while cooking dinner."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/hum" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Mutter</p>
+    <div class="row"><span class="label">Meaning:</span> To speak quietly and unclearly, often while complaining</div>
+    <div class="row"><span class="label">Synonym:</span> Murmur</div>
+    <div class="row"><span class="label">Antonym:</span> Shout</div>
+    <div class="row example">"She muttered something under her breath and walked away."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/mutter" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Whistle</p>
+    <div class="row"><span class="label">Meaning:</span> To make a clear musical sound by forcing air through pursed lips</div>
+    <div class="row"><span class="label">Synonym:</span> —</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"He whistled a happy tune on his way to work."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/whistle" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+  <div class="card">
+    <p class="word">Snap</p>
+    <div class="row"><span class="label">Meaning:</span> To make a sharp cracking sound, e.g. by flicking fingers or breaking something quickly</div>
+    <div class="row"><span class="label">Synonym:</span> Crack</div>
+    <div class="row"><span class="label">Antonym:</span> —</div>
+    <div class="row example">"She snapped her fingers to get everyone's attention."</div>
+    <div class="row"><a href="https://dictionary.cambridge.org/dictionary/english/snap" target="_blank">Cambridge Dictionary →</a></div>
+  </div>
+
+</div>
+
+<footer>26 words &middot; Vocabulary reference sheet</footer>
+
+</body>
+</html>
